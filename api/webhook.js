@@ -14,15 +14,15 @@ export default async function handler(req, res) {
   const update = req.body || {};
   // Channel posts arrive as channel_post, not message. Checking only .message silently ignores every note.
   const message = update.channel_post || update.message;
-  const allowed = config.allowedChatId();
+  const allowed = config.allowedChatIds();
 
-  if (message && (!allowed || String(message.chat.id) === allowed)) {
+  if (message && (!allowed.length || allowed.includes(String(message.chat.id)))) {
     // Acknowledge Telegram immediately so it doesn't retry; keep processing in the background.
     waitUntil(handleMessage(message).catch((err) => console.error("Unhandled:", err)));
   } else if (message?.chat?.type === "private") {
     console.warn("Ignored private chat", message.chat.id);
     waitUntil(
-      sendMessage(message.chat.id, "I only read notes posted in your capture channel. Post this note there and the draft will come back in the channel.").catch(() => {})
+      sendMessage(message.chat.id, "This chat isn't set up to send notes to this bot.").catch(() => {})
     );
   }
   return res.status(200).json({ ok: true });
