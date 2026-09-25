@@ -1,0 +1,14 @@
+{
+  "name": "skinstinct-content-engine",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Telegram note -> score -> news angle -> draft in Meera's voice -> human APPROVE/REJECT. Never auto-publishes.",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "try": "node scripts/try-note.mjs"
+  },
+  "dependencies": {
+    "@vercel/functions": "^1.5.0"
+  }
+}
