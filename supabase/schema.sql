@@ -45,6 +45,7 @@ create table if not exists voice_skill (
 
 create index if not exists drafts_chat_status_idx on drafts (chat_id, status, created_at desc);
 create index if not exists drafts_msg_ids_idx on drafts using gin (telegram_message_ids);
+create index if not exists drafts_note_id_idx on drafts (note_id);
 
 -- Only the server (service_role key) touches these tables; no public access.
 alter table notes       enable row level security;
